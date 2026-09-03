@@ -1,0 +1,966 @@
+/*
+ * ============================================================
+ * BILLAR MANAGER
+ * Hoja de estilos principal
+ * Evidencia: AA4-EV03
+ * ============================================================
+ *
+ * Bootstrap 5 se utiliza como framework CSS.
+ * Estos estilos personalizados complementan Bootstrap
+ * para conservar la identidad visual del proyecto.
+ */
+
+
+/* ============================================================
+   CONFIGURACIÓN GENERAL
+============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    background: #2f2f2f;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+button {
+    font-family: inherit;
+}
+
+
+/*
+ * Cada pantalla ocupa toda el área disponible.
+ * Por defecto permanece oculta.
+ */
+.pantalla {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+/*
+ * La pantalla que tenga la clase activa será visible.
+ */
+.pantalla.activa {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+.telefono {
+    width: 390px;
+    height: 844px;
+
+    background: #5a5a5a;
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+
+/*
+ * Decoración circular superior.
+ */
+.circulo-superior {
+    width: 230px;
+    height: 230px;
+
+    background: #000;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    top: -25px;
+    left: -80px;
+}
+
+
+/*
+ * Decoración circular inferior.
+ */
+.circulo-inferior {
+    width: 280px;
+    height: 280px;
+
+    background: #000;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    bottom: -120px;
+    right: -110px;
+}
+
+
+/*
+ * Contenido del formulario de inicio de sesión.
+ */
+.telefono .contenido {
+    position: relative;
+
+    z-index: 2;
+
+    padding: 40px 30px;
+}
+
+
+/*
+ * Título principal.
+ */
+.telefono h1 {
+    color: white;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    margin-bottom: 70px;
+}
+
+
+.telefono h1 span {
+    color: #B7FF8A;
+}
+
+
+/*
+ * Campos del formulario.
+ *
+ * Bootstrap proporciona la clase form-control.
+ * Aquí solamente ajustamos el aspecto para conservar
+ * el diseño original.
+ */
+.telefono input {
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 15px;
+
+    background: #e8e8e8;
+
+    font-size: 15px;
+}
+
+
+.telefono input:focus {
+    outline: none;
+
+    border-color: #7CFC00;
+
+    box-shadow:
+        0 0 0 0.2rem rgba(124, 252, 0, 0.20);
+}
+
+
+/*
+ * Texto de recuperación de contraseña.
+ */
+.olvido {
+    color: white;
+
+    font-size: 12px;
+
+    text-align: center;
+
+    margin-top: 5px;
+}
+
+
+.olvido a {
+    color: #66ff66;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+
+.olvido a:hover {
+    text-decoration: underline;
+}
+
+
+/*
+ * Botón de ingreso.
+ */
+.telefono button {
+    width: 100%;
+
+    height: 55px;
+
+    margin-top: 90px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #176d18;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.telefono button:hover {
+    background: #198754;
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   CONTENEDOR PRINCIPAL DE LA APLICACIÓN
+============================================================ */
+
+.app {
+    width: 400px;
+
+    height: 700px;
+
+    background: #5f5f5f;
+
+    display: flex;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ============================================================
+   BARRA LATERAL
+============================================================ */
+
+.sidebar {
+    width: 110px;
+
+    min-width: 110px;
+
+    background: #3f3f3f;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 10px;
+}
+
+
+/*
+ * Logo del sistema.
+ */
+.logo {
+    color: #7CFC00;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+
+.logo span {
+    display: block;
+}
+
+
+/*
+ * Botones del menú lateral.
+ */
+.menu-btn {
+    width: 100%;
+
+    padding: 10px;
+
+    margin: 5px 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    cursor: pointer;
+
+    border-radius: 6px;
+
+    font-size: 11px;
+
+    transition: 0.2s ease;
+}
+
+
+.menu-btn:hover,
+.menu-btn.active {
+    background: #2a2a2a;
+
+    color: #7CFC00;
+}
+
+
+/*
+ * Botón cerrar sesión.
+ */
+.logout {
+    margin-top: auto;
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: none;
+
+    background: #111;
+
+    color: white;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 10px;
+}
+
+
+.logout:hover {
+    background: #b02a37;
+}
+
+
+/* ============================================================
+   CONTENIDO PRINCIPAL
+============================================================ */
+
+.content {
+    flex: 1;
+
+    padding: 15px;
+
+    overflow-y: auto;
+
+    min-width: 0;
+}
+
+
+.content h1 {
+    color: white;
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    font-size: 24px;
+}
+
+
+/* ============================================================
+   RESUMEN DE MESAS
+============================================================ */
+
+.resumen {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+
+.dato {
+    flex: 1;
+
+    background: #444;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    padding: 10px;
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.dato h3 {
+    color: white;
+
+    font-size: 11px;
+
+    margin-bottom: 5px;
+}
+
+
+.dato span {
+    color: #7CFC00;
+
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+
+/* ============================================================
+   TARJETAS DE MESAS
+============================================================ */
+
+.mesa-card {
+    background: #757575;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    margin-bottom: 20px;
+
+    transition: all 0.3s ease;
+
+    border: 2px solid transparent;
+}
+
+
+.mesa-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #7CFC00;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+
+/*
+ * Información de cada mesa.
+ */
+.info {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 15px;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+
+/* ============================================================
+   ESTADOS DE LAS MESAS
+============================================================ */
+
+.estado-libre {
+    color: #7dff7d;
+
+    font-weight: bold;
+}
+
+
+.estado-ocupada {
+    color: #ff6b6b;
+
+    font-weight: bold;
+}
+
+
+/* ============================================================
+   DETALLE DE MESA
+============================================================ */
+
+.mesa {
+    width: 100px;
+
+    background: #8a8a8a;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-top: 10px;
+
+    font-weight: bold;
+
+    font-size: 12px;
+}
+
+
+/*
+ * Opciones TIEMPO y CONSUMO.
+ */
+.menu-item {
+    width: 100%;
+
+    text-align: center;
+
+    color: white;
+
+    padding: 20px 5px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    transition: 0.2s ease;
+}
+
+
+.menu-item:hover {
+    background: #555;
+
+    color: #7CFC00;
+}
+
+
+/*
+ * Botón volver.
+ */
+.volver {
+    width: 100%;
+
+    padding: 10px;
+
+    margin-top: auto;
+
+    border: none;
+
+    border-radius: 6px;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+
+/*
+ * Contenido del detalle.
+ */
+.contenido {
+    flex: 1;
+
+    padding: 15px;
+
+    overflow-y: auto;
+
+    min-width: 0;
+}
+
+
+/* ============================================================
+   CRONÓMETRO
+============================================================ */
+
+.cronometro {
+    margin-top: 10px;
+
+    background: #4a4a4a;
+
+    color: white;
+
+    text-align: center;
+
+    font-size: 42px;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    font-family: monospace;
+
+    letter-spacing: 2px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* ============================================================
+   CONTROLES DEL CRONÓMETRO
+============================================================ */
+
+.controles-tiempo {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 12px;
+}
+
+
+.control-btn {
+    flex: 1;
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 10px;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.activar {
+    background: #198754;
+}
+
+
+.pausar {
+    background: #b02a37;
+}
+
+
+/* ============================================================
+   ESTADO Y VALORES
+============================================================ */
+
+.estado-tiempo {
+    background: #555;
+
+    color: white;
+
+    margin-top: 10px;
+
+    padding: 9px;
+
+    border-radius: 6px;
+
+    text-align: center;
+}
+
+
+.valor {
+    margin-top: 10px;
+
+    background: #555;
+
+    color: white;
+
+    padding: 10px;
+
+    border-radius: 6px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-weight: bold;
+
+    font-size: 15px;
+}
+
+
+.valor.total {
+    background: #198754;
+
+    font-size: 18px;
+}
+
+
+/* ============================================================
+   HISTORIAL
+============================================================ */
+
+.historial {
+    margin-top: 15px;
+
+    background: #4a4a4a;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    max-height: 270px;
+
+    overflow-y: auto;
+}
+
+
+.titulo {
+    background: #888;
+
+    color: white;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    padding: 6px;
+
+    margin-bottom: 15px;
+
+    font-weight: bold;
+
+    font-size: 13px;
+}
+
+
+/*
+ * Registro utilizado para consumos,
+ * personas e historial.
+ */
+.registro {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: white;
+
+    padding: 10px;
+
+    margin-bottom: 10px;
+
+    background: #5b5b5b;
+
+    border-radius: 5px;
+
+    font-size: 13px;
+}
+
+
+.registro button {
+    flex-shrink: 0;
+}
+
+
+/* ============================================================
+   FORMULARIOS DE CONSUMO
+============================================================ */
+
+#panelConsumo input,
+.editor-cuenta input {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #e8e8e8;
+}
+
+
+#panelConsumo input:focus,
+.editor-cuenta input:focus {
+    border-color: #7CFC00;
+
+    box-shadow:
+        0 0 0 0.2rem rgba(124, 252, 0, 0.2);
+}
+
+
+/* ============================================================
+   BOTÓN AGREGAR
+============================================================ */
+
+.agregar-btn {
+    width: 100%;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #198754;
+
+    color: white;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+    cursor: pointer;
+}
+
+
+.agregar-btn:hover {
+    background: #22a35a;
+}
+
+
+/* ============================================================
+   EDITOR DE CUENTA
+============================================================ */
+
+.editor-cuenta {
+    margin-top: 15px;
+
+    background: #4a4a4a;
+
+    border-radius: 8px;
+
+    padding: 12px;
+}
+
+
+.editor-cuenta .volver {
+    margin-top: 10px;
+}
+
+
+/* ============================================================
+   BOTONES DESACTIVADOS
+============================================================ */
+
+button:disabled {
+    background: #444 !important;
+
+    color: #ccc;
+
+    cursor: not-allowed;
+
+    transform: none !important;
+}
+
+
+/* ============================================================
+   BARRAS DE DESPLAZAMIENTO
+============================================================ */
+
+.content::-webkit-scrollbar,
+.contenido::-webkit-scrollbar,
+.historial::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.content::-webkit-scrollbar-thumb,
+.contenido::-webkit-scrollbar-thumb,
+.historial::-webkit-scrollbar-thumb {
+    background: #777;
+
+    border-radius: 10px;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+/*
+ * En pantallas pequeñas la aplicación ocupa
+ * prácticamente toda la pantalla disponible.
+ */
+@media (max-width: 500px) {
+
+    .pantalla.activa {
+        align-items: stretch;
+    }
+
+
+    .telefono {
+        width: 100%;
+
+        height: 100vh;
+
+        min-height: 600px;
+    }
+
+
+    .app {
+        width: 100%;
+
+        height: 100vh;
+
+        min-height: 600px;
+
+        border-radius: 0;
+    }
+
+}
+
+
+/*
+ * En teléfonos muy pequeños reducimos algunos tamaños.
+ */
+@media (max-width: 360px) {
+
+    .sidebar {
+        width: 90px;
+
+        min-width: 90px;
+    }
+
+
+    .menu-btn {
+        font-size: 9px;
+
+        padding: 8px 4px;
+    }
+
+
+    .cronometro {
+        font-size: 32px;
+    }
+
+
+    .valor {
+        font-size: 12px;
+    }
+
+
+    .valor.total {
+        font-size: 15px;
+    }
+
+}
