@@ -73,6 +73,16 @@ let mesaComunGeneral = JSON.parse(
     localStorage.getItem("billarManagerMesaComunGeneral") || "[]"
 );
 
+// Historial general de ventas finalizadas.
+let registrosVentas = JSON.parse(
+    localStorage.getItem("billarManagerRegistrosVentas") || "[]"
+);
+
+// Reportes de bugs y fallas registrados por los usuarios.
+let reportesSistema = JSON.parse(
+    localStorage.getItem("billarManagerReportes") || "[]"
+);
+
 let personaEditandoId = null;
 
 
@@ -127,6 +137,30 @@ function guardarMesaComunGeneral() {
 }
 
 
+/**
+ * Guarda el historial general de ventas.
+ */
+function guardarRegistrosVentas() {
+
+    localStorage.setItem(
+        "billarManagerRegistrosVentas",
+        JSON.stringify(registrosVentas)
+    );
+}
+
+
+/**
+ * Guarda los reportes de bugs y fallas.
+ */
+function guardarReportesSistema() {
+
+    localStorage.setItem(
+        "billarManagerReportes",
+        JSON.stringify(reportesSistema)
+    );
+}
+
+
 // ============================================================
 // LOGIN
 // ============================================================
@@ -175,22 +209,35 @@ function irMesas() {
  */
 function mostrarMenuMesas() {
 
-    document
-        .getElementById("mesaComunGeneral")
-        .classList.remove("activa");
-
-
-    document
-        .getElementById("detalleMesa")
-        .classList.remove("activa");
-
+    ocultarPantallasInternas();
 
     document
         .getElementById("mesas")
         .classList.add("activa");
 
-
     renderizarMesas();
+}
+
+
+/**
+ * Oculta las pantallas internas antes de abrir una sección.
+ */
+function ocultarPantallasInternas() {
+
+    [
+        "mesas",
+        "mesaComunGeneral",
+        "detalleMesa",
+        "registros",
+        "reporte"
+    ].forEach(id => {
+
+        const pantalla = document.getElementById(id);
+
+        if (pantalla) {
+            pantalla.classList.remove("activa");
+        }
+    });
 }
 
 
@@ -199,22 +246,43 @@ function mostrarMenuMesas() {
  */
 function mostrarMesaComunGeneral() {
 
-    document
-        .getElementById("mesas")
-        .classList.remove("activa");
-
-
-    document
-        .getElementById("detalleMesa")
-        .classList.remove("activa");
-
+    ocultarPantallasInternas();
 
     document
         .getElementById("mesaComunGeneral")
         .classList.add("activa");
 
-
     actualizarMesaComunGeneral();
+}
+
+
+/**
+ * Muestra el historial general de ventas.
+ */
+function mostrarRegistros() {
+
+    ocultarPantallasInternas();
+
+    document
+        .getElementById("registros")
+        .classList.add("activa");
+
+    renderizarRegistrosVentas();
+}
+
+
+/**
+ * Muestra el módulo para registrar bugs y fallas del sistema.
+ */
+function mostrarReporte() {
+
+    ocultarPantallasInternas();
+
+    document
+        .getElementById("reporte")
+        .classList.add("activa");
+
+    renderizarReportes();
 }
 
 
@@ -238,6 +306,14 @@ function cerrarSesion() {
     document
         .getElementById("mesaComunGeneral")
         .classList.remove("activa");
+
+    document
+        .getElementById("registros")
+        ?.classList.remove("activa");
+
+    document
+        .getElementById("reporte")
+        ?.classList.remove("activa");
 
 
     document
@@ -893,6 +969,20 @@ function finalizarMesa() {
         valorConsumoFinal;
 
 
+    // Registra la venta completa antes de reiniciar la mesa.
+    registrosVentas.unshift({
+        id: Date.now(),
+        origen: `Mesa ${mesaSeleccionada}`,
+        fecha: new Date().toLocaleString("es-CO"),
+        segundos: segundosFinales,
+        valorTiempo: valorTiempoFinal,
+        consumos: mesa.consumos.map(producto => ({ ...producto })),
+        valorConsumo: valorConsumoFinal,
+        total: totalFinal
+    });
+
+    guardarRegistrosVentas();
+
     // Guarda el tiempo de la sesión.
     if (segundosFinales > 0) {
 
@@ -943,6 +1033,213 @@ function finalizarMesa() {
 
 
     volverMesas();
+}
+
+
+// ============================================================
+// REGISTROS Y REPORTES
+// ============================================================
+
+/**
+ * Escapa texto ingresado por el usuario antes de mostrarlo en HTML.
+ */
+function escaparHTML(texto) {
+
+    return String(texto ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+/**
+ * Muestra todas las ventas finalizadas de mesas y Mesa Común.
+ */
+function renderizarRegistrosVentas() {
+
+    const contenedor =
+        document.getElementById("listaRegistrosVentas");
+
+    if (!contenedor) {
+        return;
+    }
+
+    if (!registrosVentas.length) {
+
+        contenedor.innerHTML =
+            '<div class="registro"><span>No hay ventas registradas.</span></div>';
+
+        return;
+    }
+
+    contenedor.innerHTML = registrosVentas.map(venta => {
+
+        const productos = (venta.consumos || [])
+            .map(producto =>
+                `${escaparHTML(producto.nombre)} x${producto.cantidad || 1} - ${formatoMoneda(producto.precio * (producto.cantidad || 1))}`
+            )
+            .join("<br>");
+
+        const personas = venta.personas || [];
+
+        const detallePersonas = personas.length
+            ? personas.map(persona => {
+                const productosPersona = (persona.productos || [])
+                    .map(producto =>
+                        `${escaparHTML(producto.nombre)} - ${formatoMoneda(producto.precio)}`
+                    )
+                    .join("<br>");
+
+                return `<strong>${escaparHTML(persona.nombre)}</strong>${productosPersona ? `<br>${productosPersona}` : ""}`;
+            }).join("<hr>")
+            : "";
+
+        return `
+            <div class="registro registro-venta">
+                <div>
+                    <strong>${escaparHTML(venta.origen)}</strong><br>
+                    <small>${escaparHTML(venta.fecha)}</small><br><br>
+                    ${venta.segundos > 0 ? `Tiempo: ${formatearTiempo(venta.segundos)}<br>` : ""}
+                    ${productos ? `Consumos:<br>${productos}<br>` : ""}
+                    ${detallePersonas ? `Personas y consumos:<br>${detallePersonas}<br>` : ""}
+                    <strong>TOTAL: ${formatoMoneda(venta.total)}</strong>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+
+/**
+ * Registra un bug o una falla del software.
+ */
+function guardarReporte() {
+
+    const titulo =
+        document.getElementById("reporteTitulo").value.trim();
+
+    const tipo =
+        document.getElementById("reporteTipo").value;
+
+    const descripcion =
+        document.getElementById("reporteDescripcion").value.trim();
+
+    if (!titulo || !descripcion) {
+
+        alert("Ingrese un título y una descripción del problema.");
+
+        return;
+    }
+
+    reportesSistema.unshift({
+        id: Date.now(),
+        titulo,
+        tipo,
+        descripcion,
+        fecha: new Date().toLocaleString("es-CO"),
+        estado: "Pendiente"
+    });
+
+    guardarReportesSistema();
+
+    document.getElementById("reporteTitulo").value = "";
+    document.getElementById("reporteDescripcion").value = "";
+
+    renderizarReportes();
+
+    alert("Reporte registrado correctamente.");
+}
+
+
+/**
+ * Muestra los bugs y fallas registrados.
+ */
+function renderizarReportes() {
+
+    const contenedor =
+        document.getElementById("listaReportes");
+
+    if (!contenedor) {
+        return;
+    }
+
+    if (!reportesSistema.length) {
+
+        contenedor.innerHTML =
+            '<div class="registro"><span>No hay reportes registrados.</span></div>';
+
+        return;
+    }
+
+    contenedor.innerHTML = reportesSistema.map(reporte => `
+        <div class="registro">
+            <div>
+                <strong>${escaparHTML(reporte.titulo)}</strong><br>
+                <small>${escaparHTML(reporte.tipo)} · ${escaparHTML(reporte.fecha)}</small><br>
+                <span>${escaparHTML(reporte.descripcion)}</span><br>
+                <small>Estado: ${escaparHTML(reporte.estado)}</small>
+            </div>
+        </div>
+    `).join("");
+}
+
+
+/**
+ * Finaliza Mesa Común y registra toda la venta realizada.
+ */
+function finalizarMesaComun() {
+
+    if (!mesaComunGeneral.length) {
+
+        alert("No hay personas ni consumos para registrar en Mesa Común.");
+
+        return;
+    }
+
+    const total = mesaComunGeneral.reduce(
+        (suma, persona) => suma + calcularTotalPersona(persona),
+        0
+    );
+
+    const confirmar = confirm(
+        `¿Desea finalizar Mesa Común y registrar la venta por ${formatoMoneda(total)}?`
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    registrosVentas.unshift({
+        id: Date.now(),
+        origen: "Mesa Común",
+        fecha: new Date().toLocaleString("es-CO"),
+        segundos: 0,
+        valorTiempo: 0,
+        consumos: [],
+        personas: mesaComunGeneral.map(persona => ({
+            nombre: persona.nombre,
+            productos: (persona.productos || []).map(producto => ({ ...producto }))
+        })),
+        valorConsumo: total,
+        total
+    });
+
+    guardarRegistrosVentas();
+
+    mesaComunGeneral = [];
+    personaEditandoId = null;
+    guardarMesaComunGeneral();
+
+    const editor = document.getElementById("editorCuentaPersona");
+    if (editor) {
+        editor.style.display = "none";
+    }
+
+    actualizarMesaComunGeneral();
+
+    alert("Venta de Mesa Común registrada correctamente.");
 }
 
 
@@ -1037,7 +1334,75 @@ function abrirCuentaPersona(idPersona) {
 
 
 /**
- * Cierra una cuenta individual.
+ * Finaliza únicamente la cuenta de la persona seleccionada.
+ * La venta queda registrada y las demás cuentas de Mesa Común
+ * permanecen abiertas.
+ */
+function finalizarCuentaPersona() {
+
+    const persona =
+        mesaComunGeneral.find(
+            p => p.id === personaEditandoId
+        );
+
+    if (!persona) {
+        return;
+    }
+
+    const total = calcularTotalPersona(persona);
+
+    if (!persona.productos || !persona.productos.length) {
+        alert("La cuenta de esta persona no tiene productos registrados.");
+        return;
+    }
+
+    const confirmar = confirm(
+        `¿Desea finalizar la cuenta de ${persona.nombre} por ${formatoMoneda(total)}?`
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    registrosVentas.unshift({
+        id: Date.now(),
+        origen: `Mesa Común - ${persona.nombre}`,
+        fecha: new Date().toLocaleString("es-CO"),
+        segundos: 0,
+        valorTiempo: 0,
+        consumos: [],
+        personas: [{
+            nombre: persona.nombre,
+            productos: (persona.productos || []).map(producto => ({ ...producto }))
+        }],
+        valorConsumo: total,
+        total
+    });
+
+    guardarRegistrosVentas();
+
+    // Se elimina únicamente la cuenta que acaba de ser finalizada.
+    mesaComunGeneral =
+        mesaComunGeneral.filter(
+            p => p.id !== persona.id
+        );
+
+    personaEditandoId = null;
+    guardarMesaComunGeneral();
+
+    const editor = document.getElementById("editorCuentaPersona");
+    if (editor) {
+        editor.style.display = "none";
+    }
+
+    actualizarMesaComunGeneral();
+
+    alert(`Cuenta de ${persona.nombre} registrada correctamente en Registros.`);
+}
+
+
+/**
+ * Cierra una cuenta individual sin finalizarla.
  */
 function cerrarCuentaPersona() {
 

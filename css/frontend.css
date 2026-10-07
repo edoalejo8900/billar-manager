@@ -964,3 +964,25 @@ button:disabled {
     }
 
 }
+
+/* ============================================================
+   REGISTROS DE VENTAS Y REPORTES
+============================================================ */
+
+.registro-venta {
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.registro-venta hr {
+    margin: 10px 0;
+}
+
+#listaReportes .registro,
+#listaRegistrosVentas .registro {
+    word-break: break-word;
+}
+
+#reporteDescripcion {
+    resize: vertical;
+}

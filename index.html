@@ -103,24 +103,18 @@
                 MESA COMÚN
             </button>
 
-            <button class="menu-btn">
-                MIEMBROS
-            </button>
-
-            <button class="menu-btn">
-                TIENDA
-            </button>
-
-            <button class="menu-btn">
+            <button
+                class="menu-btn"
+                onclick="mostrarRegistros()"
+            >
                 REGISTROS
             </button>
 
-            <button class="menu-btn">
+            <button
+                class="menu-btn"
+                onclick="mostrarReporte()"
+            >
                 REPORTE
-            </button>
-
-            <button class="menu-btn">
-                EVENTOS
             </button>
 
             <button
@@ -193,24 +187,18 @@
                 MESA COMÚN
             </button>
 
-            <button class="menu-btn">
-                MIEMBROS
-            </button>
-
-            <button class="menu-btn">
-                TIENDA
-            </button>
-
-            <button class="menu-btn">
+            <button
+                class="menu-btn"
+                onclick="mostrarRegistros()"
+            >
                 REGISTROS
             </button>
 
-            <button class="menu-btn">
+            <button
+                class="menu-btn"
+                onclick="mostrarReporte()"
+            >
                 REPORTE
-            </button>
-
-            <button class="menu-btn">
-                EVENTOS
             </button>
 
             <button
@@ -328,7 +316,14 @@
                 </div>
 
                 <button
-                    class="volver btn btn-secondary"
+                    class="btn btn-success w-100 mt-2"
+                    onclick="finalizarCuentaPersona()"
+                >
+                    FINALIZAR Y REGISTRAR CUENTA
+                </button>
+
+                <button
+                    class="volver btn btn-secondary mt-2"
                     onclick="cerrarCuentaPersona()"
                 >
                     CERRAR CUENTA
@@ -336,12 +331,99 @@
 
             </div>
 
+            <button
+                class="btn btn-success w-100 mt-3"
+                onclick="finalizarMesaComun()"
+            >
+                FINALIZAR Y REGISTRAR VENTA
+            </button>
+
         </main>
 
     </div>
 
 </div>
 
+
+<!-- =====================================================
+     REGISTROS DE VENTAS
+===================================================== -->
+<div id="registros" class="pantalla">
+
+    <div class="app">
+
+        <aside class="sidebar">
+            <div class="logo">
+                <span>BILLARES</span>
+                <span>TETER</span>
+            </div>
+
+            <button class="menu-btn" onclick="mostrarMenuMesas()">MESAS</button>
+            <button class="menu-btn" onclick="mostrarMesaComunGeneral()">MESA COMÚN</button>
+            <button class="menu-btn active" onclick="mostrarRegistros()">REGISTROS</button>
+            <button class="menu-btn" onclick="mostrarReporte()">REPORTE</button>
+            <button class="logout btn" onclick="cerrarSesion()">CERRAR SESIÓN</button>
+        </aside>
+
+        <main class="content">
+            <h1>REGISTROS DE VENTAS</h1>
+            <div class="historial">
+                <div class="titulo">HISTORIAL DE VENTAS</div>
+                <div id="listaRegistrosVentas"></div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- =====================================================
+     REPORTE DE FALLAS Y BUGS
+===================================================== -->
+<div id="reporte" class="pantalla">
+
+    <div class="app">
+
+        <aside class="sidebar">
+            <div class="logo">
+                <span>BILLARES</span>
+                <span>TETER</span>
+            </div>
+
+            <button class="menu-btn" onclick="mostrarMenuMesas()">MESAS</button>
+            <button class="menu-btn" onclick="mostrarMesaComunGeneral()">MESA COMÚN</button>
+            <button class="menu-btn" onclick="mostrarRegistros()">REGISTROS</button>
+            <button class="menu-btn active" onclick="mostrarReporte()">REPORTE</button>
+            <button class="logout btn" onclick="cerrarSesion()">CERRAR SESIÓN</button>
+        </aside>
+
+        <main class="content">
+            <h1>REPORTE DE FALLAS</h1>
+
+            <div class="historial">
+                <div class="titulo">REGISTRAR BUG O FALLA</div>
+
+                <input id="reporteTitulo" type="text" class="form-control mb-2" placeholder="Título del problema">
+
+                <select id="reporteTipo" class="form-control mb-2">
+                    <option value="Bug">Bug</option>
+                    <option value="Falla">Falla</option>
+                    <option value="Error de funcionamiento">Error de funcionamiento</option>
+                    <option value="Otro">Otro</option>
+                </select>
+
+                <textarea id="reporteDescripcion" class="form-control mb-2" rows="5" placeholder="Describa qué pasó, dónde ocurrió y qué estaba haciendo cuando apareció el problema."></textarea>
+
+                <button class="agregar-btn btn btn-success w-100" onclick="guardarReporte()">
+                    GUARDAR REPORTE
+                </button>
+            </div>
+
+            <div class="historial mt-3">
+                <div class="titulo">REPORTES REGISTRADOS</div>
+                <div id="listaReportes"></div>
+            </div>
+        </main>
+    </div>
+</div>
 
 <!-- =====================================================
      DETALLE DE MESA
